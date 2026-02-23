@@ -1,3 +1,23 @@
+Create a simple react app to manage your Todos.
+
+1. Homepage should contain a list of Todos (focus on API Data fetching and use of hooks like useState and useEffects)
+	* to fetch todos use "https://6375088248dfab73a4f034c4.mockapi.io/api/v1/todos" url as get method
+	* use some library like axios instead of using JS fetch
+	* call the API inside the useEffect  fetch data on page load
+
+2. Add an input field where user can write new todo and submit (Focus on form handling and hooks like useState and date posting)
+	* use the same URL but as post method with a payload that looks like {task: "Clean the room"}
+	* Success full submit should show a success message
+	* once the API is posted the todo list should be updated.
+
+3. Each task should have a delete button
+	* On clicking the delete button the task should get deleted (if possible add some a confirmation dialogue before delete)
+	* Call the same API URL but this time with id and as delete method
+	
+	
+	
+
+
 This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
 
 ## Getting Started

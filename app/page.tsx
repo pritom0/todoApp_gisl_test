@@ -1,27 +1,29 @@
 "use client"
 
+import { inputValidation } from "@/utility/stringLib";
 import axios from "axios";
-import { randomUUID } from "crypto";
-// import Image from "next/image";
-import { ChangeEvent, ChangeEventHandler, FormEvent, FormEventHandler, useEffect, useState } from "react";
+import { ChangeEvent, FormEvent, useEffect, useState } from "react";
+import TodoList from "./_components/TodoList";
+import { api } from "@/utility/axiosLib";
 
-type Todo = {
+export type Todo = {
   task: string;
   id: string;
   createdAt: Date;
 }
 
-const url = "https://6375088248dfab73a4f034c4.mockapi.io/api/v1/todos"
-
 export default function Home() {
   const [todoList, setTodoList] = useState<Todo[]>([]);
   const [addTodo, setAddTodo] = useState<string>('');
   const [success, setSuccess] = useState<string>('')
+  const [message, setMessage] = useState<string>('')
+  const [pending, setPending] = useState<string>('')
+
   
   useEffect(() => {
     async function loadTodoData() {
       try {
-        const response = await axios.get(url)
+        const response = await api.get("")
         console.log(response, "##")
         setTodoList(response.data)
       } catch (error) {
@@ -34,35 +36,47 @@ export default function Home() {
   function onSubmit(event:FormEvent) {
     event.preventDefault();
 
+
+
     async function postTodo() {
+      setPending('true')
       try {
-        const response = await axios({
-          method:"post",
-          baseURL: url,
-          data: {
-            // id: randomUUID(),
-            // createdAt: Date.now(),
+        const response = await api.post("/",{
             task: addTodo
-          }
         });
 
         console.log(response, "resp##")
         setTodoList(p => ([...p, response.data]))
-        setSuccess("true")        
+        setMessage("The task is added successfully")
+        setSuccess('true')
+        setPending('false')
       } catch (error) {
         console.log(error)
+        setMessage('Failed to add the task')
         setSuccess('false')
+        setPending('false')
       } finally {
         setAddTodo('')
       }
 
     }
 
-    postTodo();
+    if(inputValidation(addTodo).error) {
+      setMessage(inputValidation(addTodo).message)
+      setSuccess('false')
+    } else if(pending === 'true') {
+      setMessage('Please wait for a request to complete first')
+      setSuccess('false')
+      console.log(message,"###")
+    }
+    else {
+      postTodo();
+    }
   }
 
   function addTodoHandler(e:ChangeEvent<HTMLInputElement>) {
     setAddTodo(e.target.value);
+    setSuccess('')
   }
 
   function deleteTodoHandler(id:string) {
@@ -76,7 +90,7 @@ export default function Home() {
          //     id,
          //   }
          // });
-         const response = await axios.delete(`${url}/${id}`);
+         const response = await api.delete(`/${id}`);
  
          console.log(response, "resp##")
          setTodoList(p => p.filter(todo => todo.id!==id))
@@ -94,31 +108,19 @@ export default function Home() {
   return (
     <>
       <main className="w-60">
-        <h1 className="ml-auto">
+        <h1 className="text-center">
           Todo app
         </h1>
-        <div>
-          {
-            todoList.map(todo => 
-              <li key={todo.id} className="flex border-2">
-                <div className="grow">
-                  {todo.task}
-                </div>
-                <button className="grow-0 cursor-pointer" onClick={()=>deleteTodoHandler(todo.id)}>
-                  delete
-                </button>
-              </li>
-            )
-          }
-        </div>
+        <TodoList todoList={todoList} deleteHandler={deleteTodoHandler} />
+
+        {/* <AddTodo onSubmit={onSubmit} addTodo={addTodo} addTodoHandler={addTodoHandler} pending={pending} success={success} message={message} /> */}
+
         <form onSubmit={onSubmit}>
           <input className="bg-green-900" type="text" value={addTodo} onChange={addTodoHandler} placeholder="type new task" />
-          <button type="submit">submit</button>
+          <button type="submit" disabled={pending==='true'}>submit</button>
           {
-            success==='true'? <p className="text-green-600">The task is added successfully</p> : (
-              success==='false'? <p className="text-red-600">Failed to add the task</p> :
-              <></>
-            )
+            success==='true'? <p className="text-green-600">{message}</p> :
+            success==='false'? (<p className="text-red-600">{message}</p>) : null 
           }
           <p></p>
         </form>
@@ -127,3 +129,5 @@ export default function Home() {
 
   );
 }
+
+// seperate submit, delete using custom hooks that return message, error, pending

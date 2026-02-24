@@ -1,0 +1,56 @@
+import { api } from "@/utility/axiosLib";
+import { Dispatch, SetStateAction, useState } from "react";
+import { Status, Todo } from "../page";
+
+interface UseTodoActionsProp {
+  // setTodoList: (todoList:Todo[])=>Todo[];
+  setTodoList: Dispatch<SetStateAction<Todo[]>>;
+  setStatus: Dispatch<SetStateAction<Status|undefined>>;
+}
+
+export default function useTodoActions({ setTodoList, setStatus }: UseTodoActionsProp) {
+
+  async function postTodo(
+    addTodo: string,
+    setAddTodo: Dispatch<SetStateAction<string>>,
+  ) {
+    setStatus((p) => ({ ...p, pending: "true" }));
+
+    try {
+      const response = await api.post("/", {
+        task: addTodo,
+      });
+
+      setTodoList((p) => [...p, response.data]);
+
+      setStatus({
+        message: "The task is added successfully",
+        success: "true",
+        pending: "false",
+      });
+    } catch (error) {
+      console.log(error);
+      setStatus({
+        message: "Failed to add the task",
+        success: "false",
+        pending: "false",
+      });
+    } finally {
+      setAddTodo("");
+    }
+  }
+
+  async function deleteTodo(id:string) {
+    try {
+      const response = await api.delete(`/${id}`);
+
+      console.log(response, "resp##");
+      setTodoList((p) => p.filter((todo) => todo.id !== id));
+    } catch (error) {
+      console.log(error);
+    } finally {
+    }
+  }
+
+  return { postTodo, deleteTodo };
+}

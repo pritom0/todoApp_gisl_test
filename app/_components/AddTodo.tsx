@@ -1,8 +1,14 @@
+import { ChangeEvent, FormEvent } from "react";
+import { Status } from "../page";
+
 interface addTodoProp {
-  
+  onSubmit: (e:FormEvent)=>void;
+  addTodo: string;
+  addTodoHandler: (e:ChangeEvent<HTMLInputElement>) => void ;
+  status: Status|undefined ;
 }
 
-export default function AddTodo() {
+export default function AddTodo({onSubmit , addTodo, addTodoHandler, status } :addTodoProp) {
   return (
     <>
       <form onSubmit={onSubmit}>
@@ -13,13 +19,13 @@ export default function AddTodo() {
           onChange={addTodoHandler}
           placeholder="type new task"
         />
-        <button type="submit" disabled={pending === "true"}>
+        <button type="submit" disabled={status?.pending === "true"}>
           submit
         </button>
-        {success === "true" ? (
-          <p className="text-green-600">{message}</p>
-        ) : success === "false" ? (
-          <p className="text-red-600">{message}</p>
+        {status?.success === "true" ? (
+          <p className="text-green-600">{status?.message}</p>
+        ) : status?.success === "false" ? (
+          <p className="text-red-600">{status?.message}</p>
         ) : null}
         <p></p>
       </form>

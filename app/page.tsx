@@ -1,10 +1,11 @@
 "use client"
 
 import { inputValidation } from "@/utility/stringLib";
-import axios from "axios";
 import { ChangeEvent, FormEvent, useEffect, useState } from "react";
 import TodoList from "./_components/TodoList";
 import { api } from "@/utility/axiosLib";
+import useTodoActions from "./_hooks/useTodoActions";
+import AddTodo from "./_components/AddTodo";
 
 export type Todo = {
   task: string;
@@ -12,12 +13,19 @@ export type Todo = {
   createdAt: Date;
 }
 
+export interface Status {
+  success?: string;
+  pending?: string;
+  message?: string;
+}
+
+
 export default function Home() {
   const [todoList, setTodoList] = useState<Todo[]>([]);
   const [addTodo, setAddTodo] = useState<string>('');
-  const [success, setSuccess] = useState<string>('')
-  const [message, setMessage] = useState<string>('')
-  const [pending, setPending] = useState<string>('')
+  const [status, setStatus] = useState<Status>();
+
+  const {postTodo, deleteTodo} = useTodoActions({setTodoList, setStatus})
 
   
   useEffect(() => {
@@ -36,94 +44,46 @@ export default function Home() {
   function onSubmit(event:FormEvent) {
     event.preventDefault();
 
-
-
-    async function postTodo() {
-      setPending('true')
-      try {
-        const response = await api.post("/",{
-            task: addTodo
-        });
-
-        console.log(response, "resp##")
-        setTodoList(p => ([...p, response.data]))
-        setMessage("The task is added successfully")
-        setSuccess('true')
-        setPending('false')
-      } catch (error) {
-        console.log(error)
-        setMessage('Failed to add the task')
-        setSuccess('false')
-        setPending('false')
-      } finally {
-        setAddTodo('')
-      }
-
-    }
-
     if(inputValidation(addTodo).error) {
-      setMessage(inputValidation(addTodo).message)
-      setSuccess('false')
-    } else if(pending === 'true') {
-      setMessage('Please wait for a request to complete first')
-      setSuccess('false')
-      console.log(message,"###")
+      setStatus(p=> ({...p, message:inputValidation(addTodo).message}))
+      setStatus(p=> ({...p, success:'false'}))
+    } else if(status?.pending === 'true') {
+      setStatus(p=> ({...p, message:'Please wait for a request to complete first'}))
+      setStatus(p=> ({...p, success:'false'}))
+      console.log(status?.message,"###")
     }
     else {
-      postTodo();
+      postTodo(addTodo,setAddTodo);
     }
   }
 
   function addTodoHandler(e:ChangeEvent<HTMLInputElement>) {
     setAddTodo(e.target.value);
-    setSuccess('')
+    setStatus(p=> ({...p, success:''}))
   }
 
   function deleteTodoHandler(id:string) {
     const confirm = window.confirm("confirm delete operation")
-      async function deleteTodo() {
-       try {
-         // const response = await axios({
-         //   method:"delete",
-         //   baseURL: url,
-         //   data: {
-         //     id,
-         //   }
-         // });
-         const response = await api.delete(`/${id}`);
- 
-         console.log(response, "resp##")
-         setTodoList(p => p.filter(todo => todo.id!==id))
-       } catch (error) {
-         console.log(error)
-       } finally {
-       }
-      }
 
     if(confirm) {
-      deleteTodo();
+      deleteTodo(id);
     }
   }
 
   return (
     <>
+    {"message" + status?.message}
+    {"pending" + status?.pending}
+    {"success" + status?.success}
+
       <main className="w-60">
         <h1 className="text-center">
           Todo app
         </h1>
         <TodoList todoList={todoList} deleteHandler={deleteTodoHandler} />
 
-        {/* <AddTodo onSubmit={onSubmit} addTodo={addTodo} addTodoHandler={addTodoHandler} pending={pending} success={success} message={message} /> */}
-
-        <form onSubmit={onSubmit}>
-          <input className="bg-green-900" type="text" value={addTodo} onChange={addTodoHandler} placeholder="type new task" />
-          <button type="submit" disabled={pending==='true'}>submit</button>
-          {
-            success==='true'? <p className="text-green-600">{message}</p> :
-            success==='false'? (<p className="text-red-600">{message}</p>) : null 
-          }
-          <p></p>
-        </form>
+        <AddTodo onSubmit={onSubmit} addTodo={addTodo} addTodoHandler={addTodoHandler} status={status} />
+        
       </main>
     </>
 

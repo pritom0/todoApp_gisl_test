@@ -83,11 +83,9 @@ export default function Home() {
         <TodoList todoList={todoList} deleteHandler={deleteTodoHandler} />
 
         <AddTodo onSubmit={onSubmit} addTodo={addTodo} addTodoHandler={addTodoHandler} status={status} />
-        
+
       </main>
     </>
 
   );
 }
-
-// seperate submit, delete using custom hooks that return message, error, pending

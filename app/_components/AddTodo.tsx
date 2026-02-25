@@ -1,5 +1,7 @@
 import { ChangeEvent, FormEvent } from "react";
 import { Status } from "../page";
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
 
 interface addTodoProp {
   onSubmit: (e:FormEvent)=>void;
@@ -12,22 +14,17 @@ export default function AddTodo({onSubmit , addTodo, addTodoHandler, status } :a
   return (
     <>
       <form onSubmit={onSubmit}>
-        <input
-          className="bg-green-900"
+        <Input
+          className=""
           type="text"
           value={addTodo}
           onChange={addTodoHandler}
           placeholder="type new task"
         />
-        <button type="submit" disabled={status?.pending === "true"}>
+        <Button className="mt-2" type="submit" disabled={status?.pending === "true"}>
           submit
-        </button>
-        {status?.success === "true" ? (
-          <p className="text-green-600">{status?.message}</p>
-        ) : status?.success === "false" ? (
-          <p className="text-red-600">{status?.message}</p>
-        ) : null}
-        <p></p>
+        </Button>
+
       </form>
     </>
   );

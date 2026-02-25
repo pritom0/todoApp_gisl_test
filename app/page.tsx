@@ -7,6 +7,7 @@ import { api } from "@/utility/axiosLib";
 import useTodoActions from "./_hooks/useTodoActions";
 import AddTodo from "./_components/AddTodo";
 import TmpShadcn, { ButtonDemo } from "./_tmp/TmpShadcn";
+import { toast } from "sonner";
 
 export type Todo = {
   task: string;
@@ -48,10 +49,12 @@ export default function Home() {
     if(inputValidation(addTodo).error) {
       setStatus(p=> ({...p, message:inputValidation(addTodo).message}))
       setStatus(p=> ({...p, success:'false'}))
+      toast(inputValidation(addTodo).message)
     } else if(status?.pending === 'true') {
       setStatus(p=> ({...p, message:'Please wait for a request to complete first'}))
       setStatus(p=> ({...p, success:'false'}))
       console.log(status?.message,"###")
+      toast('Please wait for a request to complete first')
     }
     else {
       postTodo(addTodo,setAddTodo);
@@ -64,35 +67,25 @@ export default function Home() {
   }
 
   function deleteTodoHandler(id:string) {
-    const confirm = window.confirm("confirm delete operation")
-
-    if(confirm) {
-      deleteTodo(id);
-    }
+    deleteTodo(id);
   }
 
   return (
     <>
-    {"message" + status?.message}
-    {"pending" + status?.pending}
-    {"success" + status?.success}
 
-      <main className="w-60">
-        <h1 className="text-center">
-          Todo app
-        </h1>
-        <TodoList todoList={todoList} deleteHandler={deleteTodoHandler} />
 
-        <AddTodo onSubmit={onSubmit} addTodo={addTodo} addTodoHandler={addTodoHandler} status={status} />
+      <main className=" min-h-screen bg-background p-4 md:p-8">
+        <div className="mx-auto max-w-2xl space-y-8">
+          <h1 className="text-center">
+            Todo app
+          </h1>
+          <TodoList todoList={todoList} deleteHandler={deleteTodoHandler} />
 
-      </main>
-      <div className="mt-56">
-        <div>
-          <TmpShadcn /> 
+          <AddTodo onSubmit={onSubmit} addTodo={addTodo} addTodoHandler={addTodoHandler} status={status} />
         </div>
 
+      </main>
 
-      </div>
     </>
 
   );

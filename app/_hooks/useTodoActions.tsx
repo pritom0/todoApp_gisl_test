@@ -1,6 +1,7 @@
 import { api } from "@/utility/axiosLib";
 import { Dispatch, SetStateAction, useState } from "react";
 import { Status, Todo } from "../page";
+import { toast } from "sonner";
 
 interface UseTodoActionsProp {
   // setTodoList: (todoList:Todo[])=>Todo[];
@@ -28,6 +29,9 @@ export default function useTodoActions({ setTodoList, setStatus }: UseTodoAction
         success: "true",
         pending: "false",
       });
+
+      toast('The task is added successfully')
+
     } catch (error) {
       console.log(error);
       setStatus({
@@ -35,6 +39,8 @@ export default function useTodoActions({ setTodoList, setStatus }: UseTodoAction
         success: "false",
         pending: "false",
       });
+
+      toast('Failed to add the task')
     } finally {
       setAddTodo("");
     }

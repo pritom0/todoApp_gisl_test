@@ -15,7 +15,9 @@ Create a simple react app to manage your Todos.
 	* Call the same API URL but this time with id and as delete method
 	
 	
-	
+
+## commits
+- testing shadcn: button spinning component 	
 
 
 This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).

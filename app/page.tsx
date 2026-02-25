@@ -6,6 +6,7 @@ import TodoList from "./_components/TodoList";
 import { api } from "@/utility/axiosLib";
 import useTodoActions from "./_hooks/useTodoActions";
 import AddTodo from "./_components/AddTodo";
+import TmpShadcn, { ButtonDemo } from "./_tmp/TmpShadcn";
 
 export type Todo = {
   task: string;
@@ -85,6 +86,13 @@ export default function Home() {
         <AddTodo onSubmit={onSubmit} addTodo={addTodo} addTodoHandler={addTodoHandler} status={status} />
 
       </main>
+      <div className="mt-56">
+        <div>
+          <TmpShadcn /> 
+        </div>
+
+
+      </div>
     </>
 
   );

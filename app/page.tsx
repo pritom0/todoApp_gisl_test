@@ -1,13 +1,11 @@
 "use client"
 
-import { inputValidation } from "@/utility/stringLib";
-import { ChangeEvent, FormEvent, useEffect, useState } from "react";
+import { ChangeEvent, useEffect, useState } from "react";
 import TodoList from "./_components/TodoList";
 import { api } from "@/utility/axiosLib";
 import useTodoActions from "./_hooks/useTodoActions";
 import AddTodo from "./_components/AddTodo";
-import TmpShadcn, { ButtonDemo } from "./_tmp/TmpShadcn";
-import { toast } from "sonner";
+// import TmpShadcn, { ButtonDemo } from "./_tmp/TmpShadcn";
 
 export type Todo = {
   task: string;
@@ -27,7 +25,7 @@ export default function Home() {
   const [addTodo, setAddTodo] = useState<string>('');
   const [status, setStatus] = useState<Status>();
 
-  const {postTodo, deleteTodo} = useTodoActions({setTodoList, setStatus})
+  const {postTodo, deleteTodo} = useTodoActions({setTodoList, setStatus, setAddTodo})
 
   
   useEffect(() => {
@@ -43,23 +41,6 @@ export default function Home() {
     loadTodoData();
   },[])
 
-  function onSubmit(event:FormEvent) {
-    event.preventDefault();
-
-    if(inputValidation(addTodo).error) {
-      setStatus(p=> ({...p, message:inputValidation(addTodo).message}))
-      setStatus(p=> ({...p, success:'false'}))
-      toast(inputValidation(addTodo).message)
-    } else if(status?.pending === 'true') {
-      setStatus(p=> ({...p, message:'Please wait for a request to complete first'}))
-      setStatus(p=> ({...p, success:'false'}))
-      console.log(status?.message,"###")
-      toast('Please wait for a request to complete first')
-    }
-    else {
-      postTodo(addTodo,setAddTodo);
-    }
-  }
 
   function addTodoHandler(e:ChangeEvent<HTMLInputElement>) {
     setAddTodo(e.target.value);
@@ -81,8 +62,10 @@ export default function Home() {
           </h1>
           <TodoList todoList={todoList} deleteHandler={deleteTodoHandler} />
 
-          <AddTodo onSubmit={onSubmit} addTodo={addTodo} addTodoHandler={addTodoHandler} status={status} />
+          <AddTodo addTodo={addTodo} addTodoHandler={addTodoHandler} status={status} postTodo={postTodo}/>
         </div>
+
+        {/* <TmpShadcn /> */}
 
       </main>
 
@@ -90,3 +73,14 @@ export default function Home() {
 
   );
 }
+
+// state action flow: 
+// task app
+// - todoList: [todoList]
+// - Add: action_add-[todoList]-[status]-action_add > break the loop: [status_after_add] [status_before_add]
+// - delete: action_del-[todoList]-[status]
+// - message: [status]
+// - input_message: [input_status]
+
+// TodoList - [todoList]
+// AddTodo - add_action()

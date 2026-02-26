@@ -7,13 +7,13 @@ interface UseTodoActionsProp {
   // setTodoList: (todoList:Todo[])=>Todo[];
   setTodoList: Dispatch<SetStateAction<Todo[]>>;
   setStatus: Dispatch<SetStateAction<Status|undefined>>;
+  setAddTodo: Dispatch<SetStateAction<string>>;
 }
 
-export default function useTodoActions({ setTodoList, setStatus }: UseTodoActionsProp) {
+export default function useTodoActions({ setTodoList, setStatus, setAddTodo }: UseTodoActionsProp) {
 
   async function postTodo(
     addTodo: string,
-    setAddTodo: Dispatch<SetStateAction<string>>,
   ) {
     setStatus((p) => ({ ...p, pending: "true" }));
 

@@ -74,6 +74,7 @@ export default function TmpShadcn() {
       </div>
       <ButtonDemo />
       <AlertDemo />
+      <AlertColors />
     </div>
   );
 }
@@ -111,6 +112,23 @@ export function AlertDemo() {
   )
 }
 
+// import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert"
+import { AlertTriangleIcon } from "lucide-react"
+
+export function AlertColors() {
+  return (
+    <Alert className="max-w-md border-red-200 bg-red-50 text-red-900 dark:border-red-900 dark:bg-red-950 dark:text-red-50">
+      <AlertTriangleIcon />
+      <AlertTitle>Your subscription will expire in 3 days.</AlertTitle>
+      <AlertDescription>
+        Renew now to avoid service interruption or upgrade to a paid plan to
+        continue using the service.
+      </AlertDescription>
+    </Alert>
+  )
+}
+
+
 export function ButtonDemo() {
   return (
     <div className="flex flex-wrap items-center gap-2 md:flex-row">
@@ -127,7 +145,7 @@ export function ButtonDemo() {
 import { toast } from "sonner"
 
 export function SonnerDemo() {
-  console.log("sonner test")
+  // console.log("sonner test")
   return (
     <Button
       variant="outline"

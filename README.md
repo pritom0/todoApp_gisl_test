@@ -18,8 +18,8 @@ Create a simple react app to manage your Todos.
 
 ## commits
 - testing shadcn: button spinning component 	
-- removed setAddTodo prop from postTodo(), inserted setAddTodo prop into useTodoAction(), because postTodo should not depend on this prop. now we can move the onSubmit of the page.tsx to the AddTodo component where it belongs. 
-
+- refactored the code: removed setAddTodo prop from postTodo(), inserted setAddTodo prop into useTodoAction(), because postTodo should not depend on this prop. now we can move the onSubmit of the page.tsx to the AddTodo component where it belongs. Todo: stop showing toast message for form input validation errors. 
+- done editAction, now we need to choose UI approach: 1. Reuse  the form component that was used for add feature, 2. switch a todo field into input field, 3. open up a shadcn dialogue box for edit operation.
 
 This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
 

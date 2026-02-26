@@ -58,5 +58,42 @@ export default function useTodoActions({ setTodoList, setStatus, setAddTodo }: U
     }
   }
 
-  return { postTodo, deleteTodo };
+  async function editAction(id:string, text: string) {
+    setStatus(p=> ({...p, pending: "true"}))
+
+    try {
+      const response = await api.put(`/${id}`, {
+        task: text,
+      });
+
+      setTodoList((p) => p.map(todo => todo.id === id? response.data: todo));
+
+      setStatus({
+        message: "The task is edited successfully",
+        success: "true",
+        pending: "false",
+      });
+
+      toast('The task is edited successfully')
+
+    } catch (error) {
+      console.log(error);
+      setStatus({
+        message: "Failed to edit the task",
+        success: "false",
+        pending: "false",
+      });
+
+      toast('Failed to edit the task')
+    } finally {
+      setAddTodo("");
+    }
+
+
+  }
+
+  return { postTodo, deleteTodo, editAction };
 }
+
+// edit submit => pending : true, editAction(id, text) success? (setTodoList(), setStatus(true), toast): (setStatus(false), toast), 
+// pending: false, 

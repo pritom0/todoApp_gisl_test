@@ -1,13 +1,14 @@
 "use client"
 
-import { ChangeEvent, useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import TodoList from "./_components/TodoList";
 import { api } from "@/utility/axiosLib";
 import useTodoActions from "./_hooks/useTodoActions";
 import AddTodo from "./_components/AddTodo";
+import { TodoContext } from "./_contexts/TodoContext";
 // import TmpShadcn, { ButtonDemo } from "./_tmp/TmpShadcn";
 
-export type Todo = {
+export type TodoType = {
   task: string;
   id: string;
   createdAt: Date;
@@ -21,11 +22,9 @@ export interface Status {
 
 
 export default function Home() {
-  const [todoList, setTodoList] = useState<Todo[]>([]);
-  const [addTodo, setAddTodo] = useState<string>('');
-  const [status, setStatus] = useState<Status>();
+  const [todoList, setTodoList] = useState<TodoType[]>([]);
 
-  const {postTodo, deleteTodo} = useTodoActions({setTodoList, setStatus, setAddTodo})
+  const {postTodo, deleteTodo, editAction} = useTodoActions({setTodoList})
 
   
   useEffect(() => {
@@ -41,12 +40,6 @@ export default function Home() {
     loadTodoData();
   },[])
 
-
-  function addTodoHandler(e:ChangeEvent<HTMLInputElement>) {
-    setAddTodo(e.target.value);
-    setStatus(p=> ({...p, success:''}))
-  }
-
   function deleteTodoHandler(id:string) {
     deleteTodo(id);
   }
@@ -60,9 +53,11 @@ export default function Home() {
           <h1 className="text-center">
             Todo app
           </h1>
-          <TodoList todoList={todoList} deleteHandler={deleteTodoHandler} />
+          <TodoContext value={{editAction}}>
+            <TodoList todoList={todoList} deleteHandler={deleteTodoHandler} />
+          </TodoContext>
 
-          <AddTodo addTodo={addTodo} addTodoHandler={addTodoHandler} status={status} postTodo={postTodo}/>
+          <AddTodo postTodo={postTodo}/>
         </div>
 
         {/* <TmpShadcn /> */}
@@ -85,4 +80,4 @@ export default function Home() {
 // TodoList - [todoList]
 // AddTodo - add_action()
 
-// 
+// delete, edit button, 

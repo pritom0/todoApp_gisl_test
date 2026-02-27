@@ -1,21 +1,18 @@
 import { api } from "@/utility/axiosLib";
 import { Dispatch, SetStateAction, useState } from "react";
-import { Status, Todo } from "../page";
+import { Status, TodoType } from "../page";
 import { toast } from "sonner";
 
 interface UseTodoActionsProp {
   // setTodoList: (todoList:Todo[])=>Todo[];
-  setTodoList: Dispatch<SetStateAction<Todo[]>>;
-  setStatus: Dispatch<SetStateAction<Status|undefined>>;
-  setAddTodo: Dispatch<SetStateAction<string>>;
+  setTodoList: Dispatch<SetStateAction<TodoType[]>>;
 }
 
-export default function useTodoActions({ setTodoList, setStatus, setAddTodo }: UseTodoActionsProp) {
+export default function useTodoActions({ setTodoList }: UseTodoActionsProp) {
 
   async function postTodo(
     addTodo: string,
   ) {
-    setStatus((p) => ({ ...p, pending: "true" }));
 
     try {
       const response = await api.post("/", {
@@ -24,25 +21,16 @@ export default function useTodoActions({ setTodoList, setStatus, setAddTodo }: U
 
       setTodoList((p) => [...p, response.data]);
 
-      setStatus({
-        message: "The task is added successfully",
-        success: "true",
-        pending: "false",
-      });
-
       toast('The task is added successfully')
+      return  true;
 
     } catch (error) {
       console.log(error);
-      setStatus({
-        message: "Failed to add the task",
-        success: "false",
-        pending: "false",
-      });
 
       toast('Failed to add the task')
+
+      return false;
     } finally {
-      setAddTodo("");
     }
   }
 
@@ -59,7 +47,6 @@ export default function useTodoActions({ setTodoList, setStatus, setAddTodo }: U
   }
 
   async function editAction(id:string, text: string) {
-    setStatus(p=> ({...p, pending: "true"}))
 
     try {
       const response = await api.put(`/${id}`, {
@@ -68,25 +55,16 @@ export default function useTodoActions({ setTodoList, setStatus, setAddTodo }: U
 
       setTodoList((p) => p.map(todo => todo.id === id? response.data: todo));
 
-      setStatus({
-        message: "The task is edited successfully",
-        success: "true",
-        pending: "false",
-      });
-
       toast('The task is edited successfully')
+      return true;
 
     } catch (error) {
       console.log(error);
-      setStatus({
-        message: "Failed to edit the task",
-        success: "false",
-        pending: "false",
-      });
 
       toast('Failed to edit the task')
+      return false
     } finally {
-      setAddTodo("");
+
     }
 
 

@@ -5,10 +5,10 @@ interface InputValidation  {
 
 // trim, more than 5 chars, less than 100 char, bad chars, prevent empty submission, 
 export function inputValidation(s:string): InputValidation {
-  if(s.length===0) {
+  if(s.trim().length===0) {
     return {error: true, message:"input can't be empty"}
   }
-  if(s.length>150) {
+  if(s.trim().length>30) {
     return {error: true, message:"input is too long"}
   }
 

@@ -18,7 +18,7 @@ export default function Todo({todo, deleteHandler}: TodoProp){
         {
           editState? 
           <>
-            <EditTodo todo={todo} />
+            <EditTodo todo={todo} setEditState={setEditState}/>
           </> :
           <li className="flex border-2 rounded-sm p-2">
             <div className="grow">

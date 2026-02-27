@@ -48,8 +48,8 @@ export default function TodoInputField({text, triggerAtSubmit, reset}: TodoInput
 
 
   return (
-    <form onSubmit={onSubmits}>
-      <Field
+    <form onSubmit={onSubmits} >
+      <Field 
         data-invalid={error? true:false}
       >
         {
@@ -57,22 +57,24 @@ export default function TodoInputField({text, triggerAtSubmit, reset}: TodoInput
             <FieldLabel htmlFor="input-invalid">Invalid Input</FieldLabel> :
             null
         }
-        <Input
-          id="input-field-username"
-          type="text"
-          placeholder={(text? "edit": "add" )+" todo"}
-          onChange={changeHandler}
-          value={input}
-        />
+        <div className="flex border-2 rounded-sm p-2">
+          <Input className="grow"
+            id="input-field-username"
+            type="text"
+            placeholder={(text? "edit": "add" )+" todo"}
+            onChange={changeHandler}
+            value={input}
+          />
+          <Button type="submit" className="grow-0 cursor-pointer"
+            disabled={pending}
+          > submit </Button>
+        </div>
         {
           error &&
             <FieldDescription>
               {error}
             </FieldDescription>
         }
-        <Button type="submit"
-          disabled={pending}
-        > submit </Button>
       </Field>
     </form>
   )

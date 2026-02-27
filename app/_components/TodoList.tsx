@@ -8,7 +8,6 @@ interface TodoListProps {
 
 export default function TodoList({deleteHandler, todoList}: TodoListProps){
 
-
   return (
     <>
         <div>

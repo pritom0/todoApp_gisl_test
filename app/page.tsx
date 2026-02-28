@@ -20,13 +20,13 @@ export interface Status {
   message?: string;
 }
 
-
+// Home has TodoList and AddTodo component. Home holds todo List state and todo actions, home loads data
 export default function Home() {
   const [todoList, setTodoList] = useState<TodoType[]>([]);
 
   const {postTodo, deleteTodo, editAction} = useTodoActions({setTodoList})
 
-  
+  // fetch data on site load
   useEffect(() => {
     async function loadTodoData() {
       try {

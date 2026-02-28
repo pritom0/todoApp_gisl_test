@@ -12,7 +12,7 @@ export default function EditTodo({todo, setEditState}:EditTodoProps){
 
   const context = useContext(TodoContext);
   if (!context) {
-    return null; // or throw new Error("Context missing!")
+    return null;
   }
   const {editAction} = context
 

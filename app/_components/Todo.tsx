@@ -11,7 +11,8 @@ interface TodoProp {
 }
 
 export default function Todo({todo, deleteHandler}: TodoProp){
-  const [editState, setEditState] = useState<boolean>(false)
+  // edit onclick switches todo item into input item
+  const [editState, setEditState] = useState<boolean>(false) 
 
   return (
     <>

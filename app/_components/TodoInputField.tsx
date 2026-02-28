@@ -17,7 +17,7 @@ export default function TodoInputField({text, triggerAtSubmit, reset}: TodoInput
   const [pending, setPending] = useState<boolean> (false)
 
   async function triggerAfterSubmit() {
-    console.log(input, "trigger")
+
     const success = await triggerAtSubmit(input);
     if(success) {
       reset()
@@ -29,8 +29,6 @@ export default function TodoInputField({text, triggerAtSubmit, reset}: TodoInput
 
   function onSubmits(event:FormEvent) {
     event.preventDefault();
-    console.log("#$#$")
-
 
     if(inputValidation(input).error) {
       setError(inputValidation(input).message)

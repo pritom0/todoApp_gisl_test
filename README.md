@@ -22,4 +22,4 @@ Create a simple react app to manage your Todos.
 - done editAction, now we need to choose UI approach: 1. Reuse  the form component that was used for add feature, 2. switch a todo field into input field, 3. open up a shadcn dialogue box for edit operation.
 - refactor: introduced generic TodoInputField for create and edit, localized validation and pending state to simplify parent logic.
 - feat: added toast notification for API response errors, implemented functional cancel button for edit mode, relocated Add todo form to the top of the UI, refactored layout spacing for better ux, removed unused imports.
-
+- bug-fix: fixed incorrect todo list sorting. mock server was generating inconsistent createdAt timestamp resulting in incorrect todo list order. 

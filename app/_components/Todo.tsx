@@ -21,11 +21,11 @@ export default function Todo({todo, deleteHandler}: TodoProp){
             <EditTodo todo={todo} setEditState={setEditState}/>
           </> :
           <li className="flex border-2 rounded-sm p-2">
-            <div className="grow">
+            <div className="grow mr-6 m-2">
               {todo.task}
             </div>
 
-            <Button className="grow-0 cursor-pointer"  variant={"destructive"}
+            <Button className="grow-0 cursor-pointer mr-2"  variant={"destructive"}
               onClick={() =>
                       toast("Are you sure to delete?", {
                         action: {

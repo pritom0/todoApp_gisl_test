@@ -12,7 +12,7 @@ export default function EditTodo({todo, setEditState}:EditTodoProps){
 
   const context = useContext(TodoContext);
   if (!context) {
-    return null; // or throw new Error("Context missing!")
+    return null;
   }
   const {editAction} = context
 
@@ -26,6 +26,6 @@ export default function EditTodo({todo, setEditState}:EditTodoProps){
 
 
   return (
-    <TodoInputField {...{triggerAtSubmit,text:todo.task,reset}} />
+    <TodoInputField {...{triggerAtSubmit,text:todo.task,reset}} className="w-full"/>
   )
 }

@@ -7,10 +7,11 @@ import { ChangeEvent, FormEvent, useState } from "react";
 interface TodoInputFieldProps {
   text: string;
   triggerAtSubmit: (text:string)=>Promise<boolean>;
-  reset: ()=>void;
+  reset: ()=>void; 
+  className: string;
 }
 
-export default function TodoInputField({text, triggerAtSubmit, reset}: TodoInputFieldProps) {
+export default function TodoInputField({text, triggerAtSubmit, reset, className}: TodoInputFieldProps) {
   
   const [error, setError] = useState<string> ('')
   const [input, setInput] = useState<string>(text || '')
@@ -46,9 +47,13 @@ export default function TodoInputField({text, triggerAtSubmit, reset}: TodoInput
     setError('')
   }
 
+  function cancelhandler() {
+    reset();
+  }
+
 
   return (
-    <form onSubmit={onSubmits} >
+    <form onSubmit={onSubmits} className={className}>
       <Field 
         data-invalid={error? true:false}
       >
@@ -58,16 +63,26 @@ export default function TodoInputField({text, triggerAtSubmit, reset}: TodoInput
             null
         }
         <div className="flex border-2 rounded-sm p-2">
-          <Input className="grow"
+          <Input className="grow mr-6"
             id="input-field-username"
             type="text"
             placeholder={(text? "edit": "add" )+" todo"}
             onChange={changeHandler}
             value={input}
           />
-          <Button type="submit" className="grow-0 cursor-pointer"
+          <Button type="submit" className="grow-0 cursor-pointer mr-2"
             disabled={pending}
           > submit </Button>
+          {
+            text &&
+            <Button className="grow-0 cursor-pointer"
+              type="button"
+              onClick={cancelhandler}
+              disabled={pending}
+            > cancel </Button>
+          }
+
+
         </div>
         {
           error &&

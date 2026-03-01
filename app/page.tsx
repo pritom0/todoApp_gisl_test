@@ -6,6 +6,7 @@ import { api } from "@/utility/axiosLib";
 import useTodoActions from "./_hooks/useTodoActions";
 import AddTodo from "./_components/AddTodo";
 import { TodoContext } from "./_contexts/TodoContext";
+import { toast } from "sonner";
 // import TmpShadcn, { ButtonDemo } from "./_tmp/TmpShadcn";
 
 export type TodoType = {
@@ -35,6 +36,7 @@ export default function Home() {
         setTodoList(response.data)
       } catch (error) {
         console.log(error)
+        toast("Failed to load the data! Please try again!") // unable to test this case
       }
     }
     loadTodoData();
@@ -48,16 +50,17 @@ export default function Home() {
     <>
 
 
-      <main className=" min-h-screen bg-background p-4 md:p-8">
+      <main className=" min-h-screen bg-slate-50 p-4 md:p-8">
         <div className="mx-auto max-w-2xl space-y-8">
-          <h1 className="text-center">
+          <h1 className="text-center text-3xl font-bold tracking-tight">
             Todo app
           </h1>
+          <AddTodo postTodo={postTodo}/>
+
           <TodoContext value={{editAction}}>
             <TodoList todoList={todoList} deleteHandler={deleteTodoHandler} />
           </TodoContext>
 
-          <AddTodo postTodo={postTodo}/>
         </div>
 
         {/* <TmpShadcn /> */}

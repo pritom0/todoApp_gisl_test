@@ -15,7 +15,7 @@ export default function AddTodo({ postTodo } :addTodoProp) {
 
   return (
     <>
-      <TodoInputField {...{triggerAtSubmit, text:"", reset:()=>null}} />
+      <TodoInputField {...{triggerAtSubmit, text:"", reset:()=>null}} className="w-full p-6 rounded-xl shadow-sm border" />
     </>
   );
 }

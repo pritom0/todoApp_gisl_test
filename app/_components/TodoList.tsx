@@ -8,11 +8,12 @@ interface TodoListProps {
 
 export default function TodoList({deleteHandler, todoList}: TodoListProps){
 
+  const sortedTodoList = todoList.sort((a,b) => new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime())
   return (
     <>
         <div>
           {
-            todoList.map(todo => 
+            sortedTodoList.map(todo => 
                 <Todo key={todo.id} {...{todo, deleteHandler}} />
             )
           }

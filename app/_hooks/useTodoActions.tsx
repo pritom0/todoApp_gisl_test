@@ -1,5 +1,6 @@
+
 import { api } from "@/utility/axiosLib";
-import { Dispatch, SetStateAction, useState } from "react";
+import { Dispatch, SetStateAction } from "react";
 import { toast } from "sonner";
 import { TodoType } from "../_components/TodoApp";
 
@@ -19,7 +20,7 @@ export default function useTodoActions({ setTodoList }: UseTodoActionsProp) {
         task: addTodo,
       });
 
-      setTodoList((p) => [...p, response.data]);
+      setTodoList((p) => [response.data, ...p ]);
 
       toast('The task is added successfully')
       return  true;
@@ -30,7 +31,6 @@ export default function useTodoActions({ setTodoList }: UseTodoActionsProp) {
       toast('Failed to add the task')
 
       return false;
-    } finally {
     }
   }
 
@@ -40,9 +40,11 @@ export default function useTodoActions({ setTodoList }: UseTodoActionsProp) {
 
       console.log(response, "resp##");
       setTodoList((p) => p.filter((todo) => todo.id !== id));
+      toast("Delete operation is successful!")
+
     } catch (error) {
       console.log(error);
-    } finally {
+      toast("Failed to execute delete request! Please try again later!")
     }
   }
 
@@ -63,10 +65,7 @@ export default function useTodoActions({ setTodoList }: UseTodoActionsProp) {
 
       toast('Failed to edit the task')
       return false
-    } finally {
-
-    }
-
+    } 
 
   }
 
@@ -75,3 +74,4 @@ export default function useTodoActions({ setTodoList }: UseTodoActionsProp) {
 
 // edit submit => pending : true, editAction(id, text) success? (setTodoList(), setStatus(true), toast): (setStatus(false), toast), 
 // pending: false, 
+

@@ -1,3 +1,4 @@
+
 Create a simple react app to manage your Todos.
 
 1. Homepage should contain a list of Todos (focus on API Data fetching and use of hooks like useState and useEffects)
@@ -21,9 +22,12 @@ Create a simple react app to manage your Todos.
 - refactored the code: removed setAddTodo prop from postTodo(), inserted setAddTodo prop into useTodoAction(), because postTodo should not depend on this prop. now we can move the onSubmit of the page.tsx to the AddTodo component where it belongs. Todo: stop showing toast message for form input validation errors. 
 - done editAction, now we need to choose UI approach: 1. Reuse  the form component that was used for add feature, 2. switch a todo field into input field, 3. open up a shadcn dialogue box for edit operation.
 - refactor: introduced generic TodoInputField for create and edit, localized validation and pending state to simplify parent logic.
+- feat: added toast notification for API response errors, implemented functional cancel button for edit mode, relocated Add todo form to the top of the UI, refactored layout spacing for better ux, removed unused imports.
+- bug-fix: fixed incorrect todo list sorting. mock server was generating inconsistent createdAt timestamp resulting in incorrect todo list order. 
 
 
-### todo
+
+### done
 defined limits of amount of refetch so that an error shows if request does not resolve after 10 seconds.
 query
 create, edit, delete mutation
@@ -32,4 +36,9 @@ reset not happening fixed
 query error notification
 disable delete button when pending
 disable single todo item instead of all items.
-- merge with switchField
+merge with switchField
+
+### todo
+- bug: at 3g, multiple updates at a time, pending state is removed by neighboring last item's pending state.
+
+

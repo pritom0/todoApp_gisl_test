@@ -1,3 +1,4 @@
+
 import { useTodoContext } from "../_contexts/TodoContext";
 import Todo from "./Todo";
 import { TodoType } from "./TodoApp";
@@ -14,11 +15,14 @@ export default function TodoList({todoList}: TodoListProps){
 
   const isPending = (id:string) => deleteMutation.isPending && deleteMutation.variables.id===id
 
+
+  const sortedTodoList = todoList.sort((a,b) => new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime())
+
   return (
     <>
         <div>
           {
-            todoList.map(todo => 
+            sortedTodoList.map(todo => 
                 <Todo key={todo.id} {...{todo, deleteHandler, pending:isPending(todo.id)}} />
             )
           }

@@ -1,3 +1,4 @@
+
 import { Button } from "@/components/ui/button";
 // import { Todo } from "../page";
 import { toast } from "sonner";
@@ -23,12 +24,14 @@ export default function Todo({todo, deleteHandler, pending}: TodoProp){
             <EditTodo todo={todo} setEditState={setEditState}/>
           </> :
           <li className="flex border-2 rounded-sm p-2">
-            <div className="grow">
+            <div className="grow mr-6 m-2">
               {todo.task}
             </div>
 
-            <Button className="grow-0 cursor-pointer"  variant={"destructive"}
-            disabled={pending}
+
+            <Button className="grow-0 cursor-pointer mr-2"  variant={"destructive"}
+              disabled={pending}
+
               onClick={() =>
                       toast("Are you sure to delete?", {
                         action: {
@@ -61,3 +64,4 @@ export default function Todo({todo, deleteHandler, pending}: TodoProp){
 // - EditInput -> editStateAction,
 // - - form -> editAction 
 // - EditButton -> editStateAction
+

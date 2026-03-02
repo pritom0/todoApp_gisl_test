@@ -1,3 +1,4 @@
+
 import { useTodoContext } from "../_contexts/TodoContext";
 import TodoInputField from "./TodoInputField";
 
@@ -22,7 +23,8 @@ export default function AddTodo() {
 
   return (
     <>
-      <TodoInputField {...{triggerAtSubmit, text:"", reset:()=>null, pending, success}} />
+
+      <TodoInputField {...{triggerAtSubmit, text:"", reset:()=>null, pending, success}} className="w-full p-6 rounded-xl shadow-sm border" />
     </>
   );
 }

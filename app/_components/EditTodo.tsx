@@ -1,3 +1,4 @@
+
 import { Dispatch, SetStateAction, useContext, } from "react";
 import { TodoContext } from "../_contexts/TodoContext";
 
@@ -35,6 +36,9 @@ export default function EditTodo({todo, setEditState}:EditTodoProps){
 
 
   return (
-    <TodoInputField {...{triggerAtSubmit,text:todo.task,reset, pending, success:editMutation.isSuccess}} />
+
+    <TodoInputField {...{triggerAtSubmit,text:todo.task,reset, pending, success: editMutation.isSuccess, className:"w-full"}} />
+
+    
   )
 }

@@ -32,8 +32,8 @@ export default function TodoApp(){
             Todo app
           </h1>
           <TodoContext value={{isLoading, createMutation, editMutation, deleteMutation}}>
-            <TodoList todoList={data}  />
             <AddTodo />
+            <TodoList todoList={data}  />
 
           </TodoContext>
         </div>

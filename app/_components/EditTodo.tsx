@@ -21,7 +21,7 @@ export default function EditTodo({todo, setEditState}:EditTodoProps){
     editMutation.mutate(
       {...todo, task: text}, 
       {
-        onSuccess(data, variables, onMutateResult, context) {
+        onSuccess() {
           resetForm();
         },
       })

@@ -25,9 +25,11 @@ Create a simple react app to manage your Todos.
 
 ### todo
 defined limits of amount of refetch so that an error shows if request does not resolve after 10 seconds.
-edit, delete mutation
-reset not happening, third taskfourt, 
-query on error notification
+query
+create, edit, delete mutation
+optimistic mutation
+reset not happening fixed
+query error notification
 disable delete button when pending
 disable single todo item instead of all items.
 - merge with switchField

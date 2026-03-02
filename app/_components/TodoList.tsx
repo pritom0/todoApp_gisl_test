@@ -18,6 +18,8 @@ export default function TodoList({todoList}: TodoListProps){
 
   const sortedTodoList = todoList.sort((a,b) => new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime())
 
+  // const sortedTodoList = todoList.sort((a,b) => new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime())
+  // const sortedTodoList = todoList.sort((a,b) => Number(b.id) - Number(a.id))
   return (
     <>
         <div>

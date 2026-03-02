@@ -1,7 +1,7 @@
 import { api } from "@/utility/axiosLib";
 import { Dispatch, SetStateAction, useState } from "react";
-import { Status, TodoType } from "../page";
 import { toast } from "sonner";
+import { TodoType } from "../_components/TodoApp";
 
 interface UseTodoActionsProp {
   // setTodoList: (todoList:Todo[])=>Todo[];

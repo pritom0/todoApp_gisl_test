@@ -1,21 +1,28 @@
+import { useTodoContext } from "../_contexts/TodoContext";
 import TodoInputField from "./TodoInputField";
 
-interface addTodoProp {
-  postTodo: (addTodo: string) => Promise<boolean>;
-}
+export default function AddTodo() {
 
+  const {createMutation} = useTodoContext();
 
-
-export default function AddTodo({ postTodo } :addTodoProp) {
-
-  async function triggerAtSubmit(text: string) {
-    return await postTodo(text)
+  function triggerAtSubmit(text:string, resetForm: ()=>void) {
+    createMutation.mutate(
+      {task: text, createdAt: new Date().toISOString(), id:Date.now().toString()},
+      {
+        onSuccess() {
+          resetForm();
+        }
+      }
+    )
   }
 
+  const pending = createMutation.isPending;
+  const success = createMutation.isSuccess;
+  
 
   return (
     <>
-      <TodoInputField {...{triggerAtSubmit, text:"", reset:()=>null}} />
+      <TodoInputField {...{triggerAtSubmit, text:"", reset:()=>null, pending, success}} />
     </>
   );
 }

@@ -2,29 +2,32 @@ import { Button } from "@/components/ui/button";
 import { Field, FieldDescription, FieldLabel } from "@/components/ui/field"
 import { Input } from "@/components/ui/input"
 import { inputValidation } from "@/utility/stringLib";
-import { ChangeEvent, FormEvent, useState } from "react";
-
+import { ChangeEvent, FormEvent,  useState } from "react";
 interface TodoInputFieldProps {
   text: string;
-  triggerAtSubmit: (text:string)=>Promise<boolean>;
+  triggerAtSubmit: (
+    text:string, 
+    resetForm: ()=>void
+  )=>void;
   reset: ()=>void;
+  pending: boolean;
+  success: boolean;
 }
 
-export default function TodoInputField({text, triggerAtSubmit, reset}: TodoInputFieldProps) {
+export default function TodoInputField({text, triggerAtSubmit, reset, pending, }: TodoInputFieldProps) {
   
   const [error, setError] = useState<string> ('')
   const [input, setInput] = useState<string>(text || '')
-  const [pending, setPending] = useState<boolean> (false)
 
-  async function triggerAfterSubmit() {
 
-    const success = await triggerAtSubmit(input);
-    if(success) {
-      reset()
-      setInput('')
-    } 
+  function triggerAfterSubmit() {
 
-    setPending(false);
+    triggerAtSubmit(input, resetForm);
+  }
+
+  function resetForm() {
+    reset()
+    setInput('')
   }
 
   function onSubmits(event:FormEvent) {
@@ -34,7 +37,6 @@ export default function TodoInputField({text, triggerAtSubmit, reset}: TodoInput
       setError(inputValidation(input).message)
     } 
     else {
-      setPending(true)
       triggerAfterSubmit();
     }
   }

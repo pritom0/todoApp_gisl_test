@@ -1,7 +1,8 @@
 import { Dispatch, SetStateAction, useContext, } from "react";
 import { TodoContext } from "../_contexts/TodoContext";
-import { TodoType } from "../page";
+
 import TodoInputField from "./TodoInputField";
+import { TodoType } from "./TodoApp";
 
 interface EditTodoProps {
   todo: TodoType;
@@ -14,18 +15,26 @@ export default function EditTodo({todo, setEditState}:EditTodoProps){
   if (!context) {
     return null;
   }
-  const {editAction} = context
+  const {editMutation} = context
 
-  async function triggerAtSubmit(text:string) {
-    return await editAction(todo.id, text)
+  async function triggerAtSubmit(text:string, resetForm: ()=>void) {
+    editMutation.mutate(
+      {...todo, task: text}, 
+      {
+        onSuccess(data, variables, onMutateResult, context) {
+          resetForm();
+        },
+      })
   }
 
   function reset() {
     setEditState(false)
   }
 
+  const pending = editMutation.isPending && todo.id===editMutation.variables.id
+
 
   return (
-    <TodoInputField {...{triggerAtSubmit,text:todo.task,reset}} />
+    <TodoInputField {...{triggerAtSubmit,text:todo.task,reset, pending, success:editMutation.isSuccess}} />
   )
 }

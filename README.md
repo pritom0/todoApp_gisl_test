@@ -23,3 +23,11 @@ Create a simple react app to manage your Todos.
 - refactor: introduced generic TodoInputField for create and edit, localized validation and pending state to simplify parent logic.
 
 
+### todo
+defined limits of amount of refetch so that an error shows if request does not resolve after 10 seconds.
+edit, delete mutation
+reset not happening, third taskfourt, 
+query on error notification
+disable delete button when pending
+disable single todo item instead of all items.
+- merge with switchField

@@ -1,16 +1,17 @@
 import { Button } from "@/components/ui/button";
 // import { Todo } from "../page";
-import type { TodoType } from "../page";
 import { toast } from "sonner";
 import { useState } from "react";
 import EditTodo from "./EditTodo";
+import { TodoType } from "./TodoApp";
 
 interface TodoProp {
   todo: TodoType;
-  deleteHandler: (id:string) => void;
+  deleteHandler: (todo:TodoType) => void;
+  pending: boolean;
 }
 
-export default function Todo({todo, deleteHandler}: TodoProp){
+export default function Todo({todo, deleteHandler, pending}: TodoProp){
   // edit onclick switches todo item into input item
   const [editState, setEditState] = useState<boolean>(false) 
 
@@ -27,11 +28,12 @@ export default function Todo({todo, deleteHandler}: TodoProp){
             </div>
 
             <Button className="grow-0 cursor-pointer"  variant={"destructive"}
+            disabled={pending}
               onClick={() =>
                       toast("Are you sure to delete?", {
                         action: {
                           label: "Yes",
-                          onClick: () => deleteHandler(todo.id),
+                          onClick: () => deleteHandler(todo),
                         },
                         cancel: {
                           label: "No",

@@ -168,3 +168,6 @@ export default function useTodoQueries(){
 
   return {data, isLoading, error, createMutation, editMutation, deleteMutation}
 }
+
+// take queryKey as ['todos', 'id'], editMutation
+// edit => will have seperate queryKey invalidation, may not match ['todos'] query and optimistic update.

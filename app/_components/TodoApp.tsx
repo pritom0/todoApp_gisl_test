@@ -28,7 +28,7 @@ export default function TodoApp(){
     <>
       <main className=" min-h-screen bg-background p-4 md:p-8">
         <div className="mx-auto max-w-2xl space-y-8">
-          <h1 className="text-center">
+          <h1 className="text-center text-3xl font-bold">
             Todo app
           </h1>
           <TodoContext value={{isLoading, createMutation, editMutation, deleteMutation}}>

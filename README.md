@@ -39,6 +39,7 @@ disable single todo item instead of all items.
 merge with switchField
 
 ### todo
-- bug: at 3g, multiple updates at a time, pending state is removed by neighboring last item's pending state.
+fixed bug: at 3g, multiple updates at a time, pending state is removed by neighboring last item's pending state. useMutation at Todo item instead of central useMutation
+- 
 
 

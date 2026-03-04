@@ -1,9 +1,8 @@
 "use client"
 
 import TodoList from "./TodoList";
-import { TodoContext } from "../_contexts/TodoContext";
 import AddTodo from "./AddTodo";
-import useTodoQueries from "../_hooks/useTodoQueries";
+
 
 export type TodoType = {
   task: string;
@@ -19,11 +18,6 @@ export interface Status {
 
 export default function TodoApp(){
 
-  const {data, isLoading, error, createMutation, editMutation, deleteMutation } = useTodoQueries()
-
-
-  console.log(data, isLoading, error)
-
   return (
     <>
       <main className=" min-h-screen bg-background p-4 md:p-8">
@@ -31,11 +25,9 @@ export default function TodoApp(){
           <h1 className="text-center text-3xl font-bold">
             Todo app
           </h1>
-          <TodoContext value={{isLoading, createMutation, editMutation, deleteMutation}}>
-            <AddTodo />
-            <TodoList todoList={data}  />
+          <AddTodo />
+          <TodoList />
 
-          </TodoContext>
         </div>
       </main>
     </>

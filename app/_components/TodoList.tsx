@@ -1,25 +1,24 @@
 
-import { useTodoContext } from "../_contexts/TodoContext";
+import useDeleteTodo from "../_hooks/useDeleteTodo";
+import useTodoQuery from "../_hooks/useTodoQuery";
 import Todo from "./Todo";
 import { TodoType } from "./TodoApp";
 
-interface TodoListProps {
-  todoList: TodoType[]
-}
 
-export default function TodoList({todoList}: TodoListProps){
-  const {deleteMutation} = useTodoContext();
+export default function TodoList(){
+
+  const {data} = useTodoQuery();
+  const todoList = data || [];
+
+  const {deleteMutation} = useDeleteTodo();
   function deleteHandler(todo: TodoType) {
     deleteMutation.mutate(todo)
   }
 
   const isPending = (id:string) => deleteMutation.isPending && deleteMutation.variables.id===id
 
-
   const sortedTodoList = todoList.sort((a,b) => new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime())
 
-  // const sortedTodoList = todoList.sort((a,b) => new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime())
-  // const sortedTodoList = todoList.sort((a,b) => Number(b.id) - Number(a.id))
   return (
     <>
         <div>

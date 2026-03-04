@@ -37,9 +37,17 @@ query error notification
 disable delete button when pending
 disable single todo item instead of all items.
 merge with switchField
+fixed bug: at 3g, multiple updates at a time, pending state is removed by neighboring last item's pending state. useMutation at Todo item instead of central useMutation
+Use separate hooks for each api actions like for example to get all the todo useTodos(), to create a new todo useCreateTodo(), to update a todo useUpdateTodo() and to delete todo useDeleteTodo()
+removed context wrapper in TodoApp component which might optimize performance
 
 ### todo
-fixed bug: at 3g, multiple updates at a time, pending state is removed by neighboring last item's pending state. useMutation at Todo item instead of central useMutation
-- 
+
+2. No need to show "Deleting..." in the toast, instead just disable the button and if possible show a loading spinner in the delete button
+
+3. Error state is not handled in the TodoApp.tsx file
+
+4. While creating todo, you are sending id and createdAt in the payload, which is unnecessary.
+
 
 

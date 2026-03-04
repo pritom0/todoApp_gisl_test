@@ -1,10 +1,10 @@
 
-import { useTodoContext } from "../_contexts/TodoContext";
+import useCreateTodo from "../_hooks/useCreateTodo";
 import TodoInputField from "./TodoInputField";
 
 export default function AddTodo() {
 
-  const {createMutation} = useTodoContext();
+  const {createMutation} = useCreateTodo();
 
   function triggerAtSubmit(text:string, resetForm: ()=>void) {
     createMutation.mutate(

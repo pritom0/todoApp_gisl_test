@@ -16,18 +16,18 @@ export default function useDeleteTodo(){
     mutationFn: async (deletedTodo:TodoType) => {
       return await api.delete(`/${deletedTodo.id}`)
     },
-    onMutate: async (deletedTodo) => {
-      await queryClient.cancelQueries({queryKey: ['todos']});
-      const previousState = queryClient.getQueryData<TodoType[]>(['todos'])
-      queryClient.setQueryData(
-        ['todos'],
-        (old:TodoType[]) => old.filter(todo => todo.id!==deletedTodo.id)
-      )
-      toast("Deleting...")
-      return {previousState};
-    },
-    async onSuccess(data) {
-      console.log(data, "mutation on success log")
+    // optimistic delete
+    // onMutate: async (deletedTodo) => {
+    //   await queryClient.cancelQueries({queryKey: ['todos']});
+    //   const previousState = queryClient.getQueryData<TodoType[]>(['todos'])
+    //   queryClient.setQueryData(
+    //     ['todos'],
+    //     (old:TodoType[]) => old.filter(todo => todo.id!==deletedTodo.id)
+    //   )
+    //   return {previousState};
+    // },
+    async onSuccess() {
+      // console.log(data, "mutation on success log")
       toast("delete successful")
       await queryClient.invalidateQueries({queryKey:['todos']})
     },
@@ -40,7 +40,7 @@ export default function useDeleteTodo(){
         toast("You are offline. Please check your internet!")
       }
       else {
-        toast("Update failed due to an error! Please try again!")
+        toast("Delete failed due to an error! Please try again!")
         console.log(error,"create error")
       }
     },

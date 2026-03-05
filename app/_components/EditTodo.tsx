@@ -1,6 +1,5 @@
 
-import { Dispatch, SetStateAction, useContext, } from "react";
-import { TodoContext } from "../_contexts/TodoContext";
+import { Dispatch, SetStateAction} from "react";
 
 import TodoInputField from "./TodoInputField";
 import { TodoType } from "./TodoApp";
@@ -16,12 +15,6 @@ export default function EditTodo({todo, setEditState}:EditTodoProps){
 
 
   const {editMutation} = useEditTodo()
-
-  const context = useContext(TodoContext);
-  if (!context) {
-    return null;
-  }
-  // const {editMutation} = context
 
   async function triggerAtSubmit(text:string, resetForm: ()=>void) {
     editMutation.mutate(

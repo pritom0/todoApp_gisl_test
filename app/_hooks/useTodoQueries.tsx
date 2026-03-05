@@ -62,7 +62,7 @@ export default function useTodoQueries(){
       return {previousTodos}
     },
     async onSuccess(data) {
-      console.log(data, "mutation on success log")
+      // console.log(data, "mutation on success log")
       await queryClient.invalidateQueries({queryKey:['todos']})
       toast("Submission successful!")
       // variable = resetFunction
@@ -104,8 +104,8 @@ export default function useTodoQueries(){
       toast("The item is updating...")
       return {previousState};
     },
-    async onSuccess(data) {
-      console.log(data, "mutation on success log")
+    async onSuccess() {
+      // console.log(data, "mutation on success log")
       toast("update successful")
       await queryClient.invalidateQueries({queryKey:['todos']})
     },
@@ -146,8 +146,8 @@ export default function useTodoQueries(){
       toast("Deleting...")
       return {previousState};
     },
-    async onSuccess(data) {
-      console.log(data, "mutation on success log")
+    async onSuccess() {
+      // console.log(data, "mutation on success log")
       toast("delete successful")
       await queryClient.invalidateQueries({queryKey:['todos']})
     },

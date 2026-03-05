@@ -28,8 +28,7 @@ export default function useEditTodo(){
       toast("The item is updating...")
       return {previousState};
     },
-    async onSuccess(data) {
-      console.log(data, "mutation on success log")
+    async onSuccess() {
       toast("update successful")
       await queryClient.invalidateQueries({queryKey:['todos']})
     },

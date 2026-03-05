@@ -1,20 +1,40 @@
 
-import { Button } from "@/components/ui/button";
-// import { Todo } from "../page";
 import { toast } from "sonner";
 import { useState } from "react";
 import EditTodo from "./EditTodo";
 import { TodoType } from "./TodoApp";
+import SpinnerButton from "./SpinnerButton";
+import useDeleteTodo from "../_hooks/useDeleteTodo";
+import { useMutationState } from "@tanstack/react-query";
 
 interface TodoProp {
   todo: TodoType;
-  deleteHandler: (todo:TodoType) => void;
-  pending: boolean;
 }
 
-export default function Todo({todo, deleteHandler, pending}: TodoProp){
+export default function Todo({todo}: TodoProp){
   // edit onclick switches todo item into input item
   const [editState, setEditState] = useState<boolean>(false) 
+
+  const {deleteMutation} = useDeleteTodo();
+  function deleteHandler(todo: TodoType) {
+    deleteMutation.mutate(todo)
+  }
+
+  // const {createMutation} = useCreateTodo();
+  // const isCreating = createMutation.isPending;
+
+  const pendingMutations = useMutationState({
+    filters: {mutationKey:['todos', 'createTodo'], status: "pending"},
+    select: (mutation) => mutation.state.variables as {task: string; id: string}
+  }) // .some(todo.task)
+
+  const isCurrentlyCreating = pendingMutations.some(vars => vars?.id === todo.id);
+
+  // console.log({isCurrentlyCreating, pendingMutations, todo:todo.task})
+  console.log("deleteMutation.variables", deleteMutation.variables)
+
+  const isPending = (id:string) => deleteMutation.isPending && deleteMutation.variables.id===id
+
 
   return (
     <>
@@ -29,8 +49,9 @@ export default function Todo({todo, deleteHandler, pending}: TodoProp){
             </div>
 
 
-            <Button className="grow-0 cursor-pointer mr-2"  variant={"destructive"}
-              disabled={pending}
+            <SpinnerButton className="grow-0 cursor-pointer mr-2"  variant={"destructive"}
+              disabled={isPending(todo.id) || isCurrentlyCreating}
+              isLoading={isPending(todo.id) || isCurrentlyCreating}
 
               onClick={() =>
                       toast("Are you sure to delete?", {
@@ -46,13 +67,15 @@ export default function Todo({todo, deleteHandler, pending}: TodoProp){
                     }
             >
               delete
-            </Button>
+            </SpinnerButton>
 
-            <Button variant={'secondary'} 
+            <SpinnerButton variant={'secondary'} 
               onClick={()=>setEditState(true)}
+              disabled={isPending(todo.id) || isCurrentlyCreating}
+              // isLoading={isPending(todo.id) || isCurrentlyCreating}
             >
               Edit
-            </Button>
+            </SpinnerButton>
           </li>
         }
     </>

@@ -7,8 +7,9 @@ export default function AddTodo() {
   const {createMutation} = useCreateTodo();
 
   function triggerAtSubmit(text:string, resetForm: ()=>void) {
+    const fakeId = Date.now().toString();
     createMutation.mutate(
-      {task: text, createdAt: new Date().toISOString(), id:Date.now().toString()},
+      {task: text, id: fakeId},
       {
         onSuccess() {
           resetForm();

@@ -51,7 +51,7 @@ export default function Todo({todo}: TodoProp){
 
             <SpinnerButton className="grow-0 cursor-pointer mr-2"  variant={"destructive"}
               disabled={isPending(todo.id) || isCurrentlyCreating}
-              isLoading={isPending(todo.id) || isCurrentlyCreating}
+              isLoading={isPending(todo.id) && !isCurrentlyCreating}
 
               onClick={() =>
                       toast("Are you sure to delete?", {

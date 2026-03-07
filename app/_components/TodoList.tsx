@@ -12,7 +12,8 @@ export default function TodoList(){
   console.log(todoList)
 
 
-  const sortedTodoList = todoList.sort((a,b) => new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime())
+  // const sortedTodoList = todoList.sort((a,b) => new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime())
+  const sortedTodoList = todoList.sort((a,b) =>  Number(b.id) - Number(a.id))
 
   if(isLoading) return (
     <div className="flex justify-center p-10">

@@ -5,10 +5,14 @@ import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { toast } from "sonner";
 import { AxiosResponse } from "axios";
 import { TodoType } from "../_components/TodoApp";
+import { useBoundStore } from "../_store/stateStore";
 
 export default function useDeleteTodo(){
   const queryClient = useQueryClient();
 
+  const {progressQueueDown, progressQueueUp, finishProgressing} = useBoundStore(state => state.progressActions)
+  const {progressDone, progressRemain} = useBoundStore(state => state)
+  
   const deleteMutation = useMutation<AxiosResponse<TodoType[]|undefined>, Error, TodoType, {previousState:TodoType[]|undefined}>({
 
     retry: 0,
@@ -17,15 +21,17 @@ export default function useDeleteTodo(){
       return await api.delete(`/${deletedTodo.id}`)
     },
     // optimistic delete
-    // onMutate: async (deletedTodo) => {
+    onMutate: async () => {
+      progressQueueUp(1);
+
     //   await queryClient.cancelQueries({queryKey: ['todos']});
-    //   const previousState = queryClient.getQueryData<TodoType[]>(['todos'])
+      const previousState = queryClient.getQueryData<TodoType[]>(['todos'])
     //   queryClient.setQueryData(
     //     ['todos'],
     //     (old:TodoType[]) => old.filter(todo => todo.id!==deletedTodo.id)
     //   )
-    //   return {previousState};
-    // },
+      return {previousState};
+    },
     async onSuccess() {
       // console.log(data, "mutation on success log")
       toast("delete successful")
@@ -44,6 +50,16 @@ export default function useDeleteTodo(){
         console.log(error,"create error")
       }
     },
+    async onSettled() {
+      progressQueueDown(1);
+      if(progressDone+1 >= progressRemain) {
+        setTimeout(finishProgressing, 2000);
+      }
+      else {
+        // progressQueueDown(1);
+      }
+    }
+    
   })
 
   return {deleteMutation}

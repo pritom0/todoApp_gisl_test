@@ -5,11 +5,16 @@ import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { toast } from "sonner";
 import { AxiosResponse } from "axios";
 import { TodoType } from "../_components/TodoApp";
+import { useBoundStore } from "../_store/stateStore";
 
 // const generateId = () => Date.now().toString()
 export default function useCreateTodo(){
   const queryClient = useQueryClient();
   // const tempId = generateId();
+
+  const {progressQueueDown, progressQueueUp, finishProgressing} = useBoundStore(state => state.progressActions)
+  const {progressDone, progressRemain} = useBoundStore(state => state)
+
   const createMutation = useMutation<AxiosResponse<TodoType[]|undefined>, Error, {task: string; id: string}, {previousTodos: TodoType[]|undefined}>({
     retry: 0,
     networkMode: 'always',
@@ -20,6 +25,9 @@ export default function useCreateTodo(){
     },
     // onMutate(variables, context) {
     async onMutate({task, id}) {
+
+      progressQueueUp(1);
+
       // query.cancel, query.state.push(data,...old),toast("data is saving"),  return query.previous_state as fallback
       
       // queryClient.cancelQueries(['todos']);
@@ -65,6 +73,24 @@ export default function useCreateTodo(){
 
 
     },
+    async onSettled() {
+      // when success or error triggers
+      progressQueueDown(1);
+      console.log("settled create mutation progress ")
+      // if(progressDone+1 === progressRemain) { // multiple mutations makes remain<done sometimes
+      if(progressDone+1 >= progressRemain) {
+        setTimeout(finishProgressing, 2000);
+      } 
+      else {
+        // progressQueueDown(1);
+      }
+
+      // const currentDone = useBoundStore.getState().progressDone;
+      // const currentRemain = useBoundStore.getState().progressRemain;
+      // if (currentDone >= currentRemain && currentRemain > 0) {
+      //   setTimeout(finishProgressing, 2000);
+      // }      
+    }
   })
 
   return {createMutation}

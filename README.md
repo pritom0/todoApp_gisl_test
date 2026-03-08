@@ -46,7 +46,7 @@ While creating todo, you are sending id and createdAt in the payload, which is u
 disable delete button when createMutation is pending
 Managing "Edit Mode"
 progressBarCustom component > progress bar at the very top of the screen that tracks any pending mutation (Create, Delete, or Update) for slow networks.
-
+optimistically added item's delete disable phase should not have spinner
 
 ### analysis
 current progress
@@ -55,33 +55,14 @@ todo query, mutations don't need state, don't need zustand, done in react query.
 
 ### todo
 
-Zustand can act as the coordinator.
-If you add a search bar or a "Show Completed" toggle
-User Session Info
+add a search bar or a "Show Completed" toggle
+User Session Info, User Authentication, NextAuth.js (Auth.js) or Clerk, Security, Middleware, and Database Relations.
 Theme (Dark/Light)
 Search/Filter Text
 progress bar > color dynamic / transition, rerender optimize, toast space conflict, mutation fire.
-optimistic added item delete disable should not have spinner
 toaster message does not disappear after an error or multiple messages, 
 progress component, use 3rd party library from daily.dev, or animate
+fails optimistic create when task="slowest"
+react hook form for todo form, todo add, todo set priority, todo done toggle, todo edit, delete;
 
 ### plan
-
-edit flow
-edit state, edit state reducer
-dispatch('edit', text)
-selector = create (set => editReducer(state,edit_action))
-selector(state => state.edit)
-keep selector=create at store/edit.ts and import it inside editTodo component
-
-progress bar flow
-<progress completed={boolean} color={getColor(mutation_type)}>
-create/edit/delete mutation isPending && <progress>
-progress state, progress state reducer
-dispatch('progress', 'create_on'|'create_off'|'update..'|'delete..')
-selector = create(set => progressReducer(state, 'create_on'))
->
-called QUEUE_UP in onMutation function, QUEUE_DOWN in onSettled function, Queue check to reset
-onSettled increases percentage, 
-queue_done++ at onSettle, queue_done = queue_remain = 0 after 2 seconds onSettle, causes bug for 2 seconds delay: if mutation event fires within the delay > queue_remain++ > queue_remain resets abruptly. solve approaches: 1. create new progress component each time reset happens. 2. clear the reset event if queue_up event fires > keep state.shouldReset boolean for progressFinish function
-

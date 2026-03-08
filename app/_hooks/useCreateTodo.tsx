@@ -6,6 +6,7 @@ import { toast } from "sonner";
 import { AxiosResponse } from "axios";
 import { TodoType } from "../_components/TodoApp";
 import { useBoundStore } from "../_store/stateStore";
+import { sleep } from "@/utility/sleep";
 
 // const generateId = () => Date.now().toString()
 export default function useCreateTodo(){
@@ -20,6 +21,7 @@ export default function useCreateTodo(){
     networkMode: 'always',
     mutationKey: ['todos', 'createTodo'],
     mutationFn: async ({task}) =>{
+      if(task === 'slowest' && process.env.NODE_ENV==='development') await sleep(6000)
       const response = await api.post("", {task})
       return response || [] ;
     },

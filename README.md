@@ -47,6 +47,8 @@ disable delete button when createMutation is pending
 Managing "Edit Mode"
 progressBarCustom component > progress bar at the very top of the screen that tracks any pending mutation (Create, Delete, or Update) for slow networks.
 optimistically added item's delete disable phase should not have spinner
+cleaned unused codes
+todo crud requests are now routed to nextjs server instead of mock server from user's end, used routes.ts to achieve this
 
 ### analysis
 current progress

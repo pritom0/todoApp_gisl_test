@@ -20,18 +20,12 @@ export default function Todo({todo}: TodoProp){
     deleteMutation.mutate(todo)
   }
 
-  // const {createMutation} = useCreateTodo();
-  // const isCreating = createMutation.isPending;
-
   const pendingMutations = useMutationState({
     filters: {mutationKey:['todos', 'createTodo'], status: "pending"},
     select: (mutation) => mutation.state.variables as {task: string; id: string}
   }) // .some(todo.task)
 
   const isCurrentlyCreating = pendingMutations.some(vars => vars?.id === todo.id);
-
-  // console.log({isCurrentlyCreating, pendingMutations, todo:todo.task})
-  console.log("deleteMutation.variables", deleteMutation.variables)
 
   const isPending = (id:string) => deleteMutation.isPending && deleteMutation.variables.id===id
 
@@ -72,7 +66,6 @@ export default function Todo({todo}: TodoProp){
             <SpinnerButton variant={'secondary'} 
               onClick={()=>setEditState(true)}
               disabled={isPending(todo.id) || isCurrentlyCreating}
-              // isLoading={isPending(todo.id) || isCurrentlyCreating}
             >
               Edit
             </SpinnerButton>

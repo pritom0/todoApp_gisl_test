@@ -9,7 +9,7 @@ export default function TodoList(){
 
   const {data, isLoading, error} = useTodoQuery();
   const todoList = data || [];
-  console.log(todoList)
+  // console.log(todoList)
 
 
   // const sortedTodoList = todoList.sort((a,b) => new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime())

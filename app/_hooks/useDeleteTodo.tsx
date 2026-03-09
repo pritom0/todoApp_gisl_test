@@ -18,7 +18,7 @@ export default function useDeleteTodo(){
     retry: 0,
     networkMode:'always',
     mutationFn: async (deletedTodo:TodoType) => {
-      return await api.delete(`/${deletedTodo.id}`)
+      return await api.delete(`/api/todos/${deletedTodo.id}`)
     },
     // optimistic delete
     onMutate: async () => {
@@ -47,7 +47,7 @@ export default function useDeleteTodo(){
       }
       else {
         toast("Delete failed due to an error! Please try again!")
-        console.log(error,"create error")
+        // console.log(error,"create error")
       }
     },
     async onSettled() {

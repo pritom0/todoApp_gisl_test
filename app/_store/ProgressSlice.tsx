@@ -1,29 +1,11 @@
 import { StateCreator } from 'zustand'
 
-// const progressReducer = (state, action) => {
-//   switch (action.type) {
-//     case 'PROGRESS_QUEUE_DOWN':
-//       return ({...state, progressDone: state.progressDone+1})
-//     case 'PROGRESS_QUEUE_UP':
-//       return ({...state, progressRemain: state.progressRemain+1})
-//     case 'PROGRESS_FINISH':
-//       return ({
-//       ...state,
-//       progressDone: 0,
-//       progressRemain: 0
-//     })
-
-//     default:
-//       return state;
-//   }
-// }
-
 
 export type ProgressState = {
   shouldFinish: number;
   progressDone: number;
   progressRemain: number;
-  // isProgressing: () => boolean;
+
   progressActions: {
     progressQueueUp: (queueAmount:number) => void;
     progressQueueDown: (queueAmount:number) => void;
@@ -36,14 +18,6 @@ export const ProgressSlice: StateCreator<ProgressState, [], [], ProgressState> =
   progressRemain: 0,
   shouldFinish: 0,
 
-  // isProgressing: () => {
-  //   let ans = false;
-  //   set(state => {
-  //     if(state.progressDone < state.progressRemain) ans = true;
-  //     return state;
-  //   })
-  //   return ans;
-  // },
 
   progressActions: {
     progressQueueUp: (queueAmount:number) => {

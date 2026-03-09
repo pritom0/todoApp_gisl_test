@@ -3,7 +3,7 @@
 import { api } from "@/utility/axiosLib";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { toast } from "sonner";
-import { AxiosResponse } from "axios";
+import axios, { AxiosResponse } from "axios";
 import { TodoType } from "../_components/TodoApp";
 import { useBoundStore } from "../_store/stateStore";
 import { sleep } from "@/utility/sleep";
@@ -11,7 +11,6 @@ import { sleep } from "@/utility/sleep";
 // const generateId = () => Date.now().toString()
 export default function useCreateTodo(){
   const queryClient = useQueryClient();
-  // const tempId = generateId();
 
   const {progressQueueDown, progressQueueUp, finishProgressing} = useBoundStore(state => state.progressActions)
   const {progressDone, progressRemain} = useBoundStore(state => state)
@@ -22,23 +21,17 @@ export default function useCreateTodo(){
     mutationKey: ['todos', 'createTodo'],
     mutationFn: async ({task}) =>{
       if(task === 'slowest' && process.env.NODE_ENV==='development') await sleep(6000)
-      const response = await api.post("", {task})
+      const response = await axios.post("/api/todos", {task})
       return response || [] ;
     },
-    // onMutate(variables, context) {
     async onMutate({task, id}) {
 
       progressQueueUp(1);
 
-      // query.cancel, query.state.push(data,...old),toast("data is saving"),  return query.previous_state as fallback
-      
-      // queryClient.cancelQueries(['todos']);
-      // queryClient.cancelQueries({queryKey:['todos']})
-
       await queryClient.cancelQueries({queryKey:['todos']})
       
       const previousTodos = queryClient.getQueryData<TodoType[]>(['todos']);
-      // queryClient.setQueryData(['todos'], [{createdAt: new Date().toISOString(), task: newTask}, ...(old||[])])
+
       queryClient.setQueryData(
         ['todos'], 
         (old:TodoType[]) => 
@@ -51,14 +44,14 @@ export default function useCreateTodo(){
             ...(old || [])
           ])
       toast("Saving your task...")
-      console.log({previousTodos}, "test optimistic test")
+      // console.log({previousTodos}, "test optimistic test")
       return {previousTodos}
     },
     async onSuccess() {
-      // console.log(data, "mutation on success log")
+
       await queryClient.invalidateQueries({queryKey:['todos']})
       toast("Submission successful!")
-      // variable = resetFunction
+
     },
     async onError(error, variables, context) {
       if(context?.previousTodos) {
@@ -76,9 +69,9 @@ export default function useCreateTodo(){
 
     },
     async onSettled() {
-      // when success or error triggers
+      // when success or error triggers progress proceeds
       progressQueueDown(1);
-      console.log("settled create mutation progress ")
+
       // if(progressDone+1 === progressRemain) { // multiple mutations makes remain<done sometimes
       if(progressDone+1 >= progressRemain) {
         setTimeout(finishProgressing, 2000);
@@ -86,12 +79,6 @@ export default function useCreateTodo(){
       else {
         // progressQueueDown(1);
       }
-
-      // const currentDone = useBoundStore.getState().progressDone;
-      // const currentRemain = useBoundStore.getState().progressRemain;
-      // if (currentDone >= currentRemain && currentRemain > 0) {
-      //   setTimeout(finishProgressing, 2000);
-      // }      
     }
   })
 

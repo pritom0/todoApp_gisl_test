@@ -1,8 +1,6 @@
-
-
-import { api } from "@/utility/axiosLib";
 import {useQuery } from "@tanstack/react-query";
 import { TodoType } from "../_components/TodoApp";
+import axios from "axios";
 
 export default function useTodoQuery(){
   const {data=[], isLoading=false, error} = 
@@ -15,7 +13,7 @@ export default function useTodoQuery(){
     }) 
 
   async function queryFn() {
-    return (await api.get("")).data
+    return (await axios.get("/api/todos")).data
   }
 
   return {data, isLoading, error}

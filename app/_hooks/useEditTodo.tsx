@@ -3,7 +3,7 @@
 import { api } from "@/utility/axiosLib";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { toast } from "sonner";
-import { AxiosResponse } from "axios";
+import axios, { AxiosResponse } from "axios";
 import { TodoType } from "../_components/TodoApp";
 import { useBoundStore } from "../_store/stateStore";
 
@@ -19,7 +19,7 @@ export default function useEditTodo(){
     retry: 0,
     networkMode: 'always',
     mutationFn: async (editedTodo:TodoType) =>{
-      const response = await api.put(`/${editedTodo.id}`, editedTodo)
+      const response = await axios.put(`/api/todos/${editedTodo.id}`, {task: editedTodo.task})
       return response;
     },
     onMutate: async (editedTodo) => {

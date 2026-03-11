@@ -1,6 +1,4 @@
 
-
-import { api } from "@/utility/axiosLib";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { toast } from "sonner";
 import axios, { AxiosResponse } from "axios";

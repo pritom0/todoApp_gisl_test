@@ -1,3 +1,9 @@
+## instructions
+
+parallel route, middleware feature:
+- visit localhost/practice/parallelRoute, type 'admin' or 'user' submit to login, type anything else to logout. 
+- if logged in resource page is accessible, otherwise middleware redirects requests.
+
 
 Create a simple react app to manage your Todos.
 

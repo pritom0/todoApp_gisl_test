@@ -1,13 +1,13 @@
 
 import { Spinner } from "@/components/ui/spinner";
-import useTodoQuery from "../_hooks/useTodoQuery";
 import Todo from "./Todo";
 import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
+import useTodosQuery from "../_hooks/useTodosQuery";
 
 
 export default function TodoList(){
 
-  const {data, isLoading, error} = useTodoQuery();
+  const {data, isLoading, error} = useTodosQuery();
   const todoList = data || [];
   // console.log(todoList)
 

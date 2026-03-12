@@ -2,7 +2,7 @@ import {useQuery } from "@tanstack/react-query";
 import { TodoType } from "../_components/TodoApp";
 import axios from "axios";
 
-export default function useTodoQuery(){
+export default function useTodosQuery(){
   const {data=[], isLoading=false, error} = 
     useQuery<TodoType[]|undefined,Error>({
       queryKey:['todos'], 

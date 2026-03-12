@@ -16,20 +16,7 @@ export async function GET (request: NextRequest,
     return NextResponse.json(response.data)
   } catch (error) {
     const axiosError = error as AxiosError;
-    return {error:"failed to fetch", message: axiosError?.message, status: 500}
-  }
-}
-
-export async function POST (request: Request) {
-  try {
-    // console.log(request);
-    const body = await request.json();
-    const {task} = body;
-    const response = await api.post("", {task});
-    return NextResponse.json(response.data)
-  } catch (error) {
-    const axiosError = error as AxiosError;
-    return NextResponse.json ({error:"failed to post data", message: axiosError?.message, status: 500})
+    return NextResponse.json({error:"failed to fetch", message: axiosError?.message, status: 500})
   }
 }
 

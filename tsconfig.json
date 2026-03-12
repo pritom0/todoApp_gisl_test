@@ -1,5 +1,10 @@
 {
   "compilerOptions": {
+    "noImplicitAny": true,            // Error on expressions with an implied 'any' type
+    "strictNullChecks": true,         // Ensures you handle 'null' and 'undefined'
+    "noUnusedLocals": true,           // Error if you declare a variable but don't use it
+    "noUnusedParameters": true,       // Error if a function has unused arguments
+    "exactOptionalPropertyTypes": true, // Prevents setting optional props to 'undefined'    
     "target": "ES2017",
     "lib": ["dom", "dom.iterable", "esnext"],
     "allowJs": true,

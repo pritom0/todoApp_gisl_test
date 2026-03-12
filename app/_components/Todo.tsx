@@ -6,6 +6,7 @@ import { TodoType } from "./TodoApp";
 import SpinnerButton from "./SpinnerButton";
 import useDeleteTodo from "../_hooks/useDeleteTodo";
 import { useMutationState } from "@tanstack/react-query";
+import Link from "next/link";
 
 interface TodoProp {
   todo: TodoType;
@@ -39,7 +40,9 @@ export default function Todo({todo}: TodoProp){
           </> :
           <li className="flex border-2 rounded-sm p-2">
             <div className="grow mr-6 m-2">
-              {todo.task}
+              <Link href={`/todo/${todo.id}`}>
+                {todo.task}
+              </Link>
             </div>
 
 

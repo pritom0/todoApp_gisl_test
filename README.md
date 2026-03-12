@@ -1,3 +1,19 @@
+### issue
+
+icon.tsx not working
+title description meta is not showing
+error in vercel typescript
+could not deploy preview branch try/middleware
+npx tsc --noEmit --watch
+https://www.opengraph.xyz/url/https%3A%2F%2Fbangla-typing-online.vercel.app%2F
+https://vercel.com/abhijeet-kuri-pritoms-projects/todo-app-gisl-test/C5Ncqvb8j3JtYCPBVr8CBZLYjunk
+
+https://nextjs.org/docs/app/api-reference/file-conventions/metadata/app-icons
+⚠ ./app/opengraph-image.jpeg
+AVIF image not supported
+This version of Turbopack does not support AVIF images, will emit without optimization or encoding
+
+
 ## instructions
 
 parallel route, middleware feature:

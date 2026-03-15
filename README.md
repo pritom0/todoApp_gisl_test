@@ -71,6 +71,10 @@ progressBarCustom component > progress bar at the very top of the screen that tr
 optimistically added item's delete disable phase should not have spinner
 cleaned unused codes
 todo crud requests are now routed to nextjs server instead of mock server from user's end, used routes.ts to achieve this
+lighthouse performance optimization: todoList data fetch takes about 2 seconds, so we cache data on nextjs server using fetch(,next:{revalidate:60}, we define server function for getTodo inside page.tsx of Home page. so, when the first user requests data it will be cached for subsequent users.
+> issue: the first time data is not fetched because npm run build can't fetch data when server is not up yet, in real world, server will be seperate and build won't show warnings.
+opengraph-image shows in localhost, but not in vercel, 
+
 
 ### analysis
 current progress

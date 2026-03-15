@@ -26,7 +26,7 @@ const protocol = domain.includes('localhost') ? 'http' : 'https';
 
 // 3. Construct the clean URL
 const baseUrl = `${protocol}://${domain}`;
-const imageUrl = `${baseUrl}/todoImage/todo${id}.jpg`;
+const imageUrl = `${baseUrl}/TodoImage/todo${id}.jpg`;
 
   try {
     // Reading as base64 is efficient for embedding

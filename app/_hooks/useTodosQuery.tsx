@@ -8,9 +8,9 @@ type TodoErrorResponse = {
   status: string;
 }
 
-type TodoApiResponse = TodoType[] | TodoErrorResponse
+export type TodoApiResponse = TodoType[] | TodoErrorResponse
 
-export default function useTodosQuery(){
+export default function useTodosQuery(initialTodos: TodoApiResponse | undefined){
   const {data=[], isLoading=false, error} = 
     // useQuery<TodoType[]|undefined,Error>({
     useQuery<TodoApiResponse|undefined,Error>({
@@ -18,7 +18,8 @@ export default function useTodosQuery(){
       queryFn, 
       meta: {
         errorMessage: 'Failed to load the task list',
-      }
+      },
+      initialData: Array.isArray(initialTodos)?  initialTodos: []
     }) 
 
   async function queryFn() {

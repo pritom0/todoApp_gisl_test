@@ -3,10 +3,13 @@ import { Spinner } from "@/components/ui/spinner";
 import Todo from "./Todo";
 import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
 import useTodosQuery from "../_hooks/useTodosQuery";
+import { useContext } from "react";
+import { InitialTodoContext } from "../_contexts/InitialTodoProvider";
+
 
 export default function TodoList(){
-
-  const {data, isLoading, error} = useTodosQuery();
+  const initialTodos = useContext(InitialTodoContext);
+  const {data, isLoading, error} = useTodosQuery(initialTodos);
 
   if(error) return (
     <Alert variant="destructive">

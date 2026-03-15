@@ -1,6 +1,6 @@
-import { readFile } from "fs/promises";
+// import { readFile } from "fs/promises";
 import { ImageResponse } from "next/og";
-import { join } from "path";
+// import { join } from "path";
 
 type IconProp = {
   params: Promise<{ id: string }>;

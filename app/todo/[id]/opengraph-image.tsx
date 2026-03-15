@@ -18,10 +18,14 @@ export default async function TodoImage({ params }: IconProp) {
   // `todo${id}.jpg`
   // );
 
-const baseUrl = process.env.VERCEL_URL 
-    ? `https://${process.env.VERCEL_URL}` 
-    : 'http://localhost:3000';
+// 1. Get the domain (Vercel provides this automatically)
+const domain = process.env.VERCEL_PROJECT_PRODUCTION_URL || process.env.VERCEL_URL || 'localhost:3000';
 
+// 2. Ensure we have the right protocol (https for production, http for local)
+const protocol = domain.includes('localhost') ? 'http' : 'https';
+
+// 3. Construct the clean URL
+const baseUrl = `${protocol}://${domain}`;
 const imageUrl = `${baseUrl}/todoImage/todo${id}.jpg`;
 
   try {

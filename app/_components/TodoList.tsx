@@ -4,22 +4,9 @@ import Todo from "./Todo";
 import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
 import useTodosQuery from "../_hooks/useTodosQuery";
 
-
 export default function TodoList(){
 
   const {data, isLoading, error} = useTodosQuery();
-  const todoList = data || [];
-  // console.log(todoList)
-
-
-  // const sortedTodoList = todoList.sort((a,b) => new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime())
-  const sortedTodoList = todoList.sort((a,b) =>  Number(b.id) - Number(a.id))
-
-  if(isLoading) return (
-    <div className="flex justify-center p-10">
-      <Spinner  />
-    </div>
-  )
 
   if(error) return (
     <Alert variant="destructive">
@@ -29,6 +16,29 @@ export default function TodoList(){
       </AlertDescription>
     </Alert>
   );
+  if(data && "error" in data) return (
+    <Alert variant="destructive">
+      <AlertTitle>Error</AlertTitle>
+      <AlertDescription>
+        {data.error}
+      </AlertDescription>
+    </Alert>
+  );
+
+
+  if(isLoading) return (
+    <div className="flex justify-center p-10">
+      <Spinner  />
+    </div>
+  )
+
+  const todoList = Array.isArray (data)? data : [];
+  // console.log(todoList, "error todoList", {data}, isLoading, error)
+
+  // const sortedTodoList = todoList.sort((a,b) => new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime())
+  const sortedTodoList = todoList.sort((a,b) =>  Number(b.id) - Number(a.id))
+
+
 
   return (
     <>

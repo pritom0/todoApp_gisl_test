@@ -8,7 +8,7 @@ export async function GET () {
     return NextResponse.json(response.data)
   } catch (error) {
     const axiosError = error as AxiosError;
-    return {error:"failed to fetch", message: axiosError?.message, status: 500}
+    return NextResponse.json({error:"failed to fetch", message: axiosError?.message, status: 500})
   }
 }
 

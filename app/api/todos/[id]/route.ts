@@ -21,7 +21,7 @@ export async function PUT (request:Request, context: Context) {
   
 }
 
-export async function DELETE (request:Request, context: Context) {
+export async function DELETE (_:Request, context: Context) {
   try {
 
     const {params} = context;

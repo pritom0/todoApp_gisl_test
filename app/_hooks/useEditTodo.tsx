@@ -37,7 +37,7 @@ export default function useEditTodo(){
       toast("update successful")
       await queryClient.invalidateQueries({queryKey:['todos']})
     },
-    async onError(error, variables, context) {
+    async onError(error, _, context) {
       if(context?.previousState) {
         queryClient.setQueryData(['todos'], context.previousState)
       }

@@ -37,7 +37,7 @@ export default function useDeleteTodo(){
       toast("delete successful")
       await queryClient.invalidateQueries({queryKey:['todos']})
     },
-    async onError(error, variables, context) {
+    async onError(_, __, context) {
       if(context?.previousState) {
         queryClient.setQueryData(['todos'], context.previousState)
       }

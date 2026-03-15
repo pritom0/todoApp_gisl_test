@@ -4,7 +4,8 @@
     "strictNullChecks": true,         // Ensures you handle 'null' and 'undefined'
     "noUnusedLocals": true,           // Error if you declare a variable but don't use it
     "noUnusedParameters": true,       // Error if a function has unused arguments
-    "exactOptionalPropertyTypes": true, // Prevents setting optional props to 'undefined'    
+    // "exactOptionalPropertyTypes": true, // Prevents setting optional props to 'undefined'    
+    "exactOptionalPropertyTypes": false, // Prevents setting optional props to 'undefined'    
     "target": "ES2017",
     "lib": ["dom", "dom.iterable", "esnext"],
     "allowJs": true,

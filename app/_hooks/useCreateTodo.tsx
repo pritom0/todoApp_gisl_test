@@ -1,6 +1,5 @@
 
 
-import { api } from "@/utility/axiosLib";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { toast } from "sonner";
 import axios, { AxiosResponse } from "axios";
@@ -53,7 +52,7 @@ export default function useCreateTodo(){
       toast("Submission successful!")
 
     },
-    async onError(error, variables, context) {
+    async onError(error, _, context) {
       if(context?.previousTodos) {
         queryClient.setQueryData(['todos'], context.previousTodos)
       }

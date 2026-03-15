@@ -17,6 +17,11 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
+  metadataBase: new URL(
+    process.env.NODE_ENV === 'production' 
+      ? 'https://todo-app-gisl-test.vercel.app' 
+      : 'http://localhost:3000'
+  ),
   title: "Todo App Home",
   description: "List of todo items",
 };

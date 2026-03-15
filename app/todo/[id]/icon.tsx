@@ -1,5 +1,4 @@
 // app/todo/[id]/icon.tsx
-import { api } from "@/utility/axiosLib";
 import { ImageResponse } from "next/og";
 
 export const size = { width: 32, height: 32 };
@@ -8,7 +7,7 @@ export const contentType = 'image/png';
 export default async function Icon({ params }: { params: Promise<{ id: string }> }) {
   const { id } = await params;
 
-  const todo = (await api.get(`/${id}`)).data
+  // const todo = (await api.get(`/${id}`)).data
 
 
   return new ImageResponse(

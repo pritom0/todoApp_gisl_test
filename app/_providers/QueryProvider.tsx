@@ -8,7 +8,7 @@ import { toast } from "sonner";
 export default function QUeryProvider({children}:React.PropsWithChildren){
   const [queryClient] = useState(()=>new QueryClient({
     queryCache: new QueryCache({
-      onError(error, query) {
+      onError(_, query) {
         if(query.meta?.errorMessage) {
           toast.error(query.meta.errorMessage as string)
         }

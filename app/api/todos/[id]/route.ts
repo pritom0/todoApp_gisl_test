@@ -1,17 +1,23 @@
 import { api } from "@/utility/axiosLib";
 import { AxiosError } from "axios";
-import { NextResponse } from "next/server";
+import { NextRequest, NextResponse } from "next/server";
 
 type Context = {
   params: Promise<{id: string}>
 }
 
-export async function PUT (request:Request, context: Context) {
+export async function PUT (request:NextRequest, context: Context) {
   try {
+
+    const {id} = await context.params;
+    if(id==='24') {
+      const url = request.nextUrl.clone();
+      url.pathname = `api/todo/new-id-24`
+      return NextResponse.redirect(url, 308);
+    }
+
     const body = await request.json();
     const {task} = body;
-    const {params} = context;
-    const {id} = await params;
     const response = await api.put(id, {task})
     return NextResponse.json(response.data)
   } catch (error) {
